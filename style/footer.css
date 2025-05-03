@@ -1,0 +1,28 @@
+#footer {
+    background-color: #121212;
+    height: 200px;
+    border-top: 0.1px solid #a7a7a755;
+}
+
+.footer-logo {
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 25px;
+    color: #fefefe;
+    margin: 50px 15px 0px 30px;
+}
+
+#footer ol {
+    list-style: none;
+    overflow: hidden;
+    margin: 50px 0 20px 10px;
+}
+
+#footer ol li{
+    float: left;
+    color: #fefefe;
+    font-size: 10px;
+    margin: 0 20px 0 20px;
+}
