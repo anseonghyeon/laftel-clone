@@ -43,7 +43,7 @@ fetch(popularUrl).then(res => res.json()).then(data => {
         posterPath = data.results[i]['poster_path'];
 
         document.querySelector('.overview-title').textContent = title;
-        document.querySelector('.overview-text').textContent = overview;
+        document.querySelector('.overview-text').textContent = overview.length > 300 ? overview.slice(0, 150) + '...' : overview; 
         document.querySelector('.overview-vote-average').textContent = `평점 : ${voteAverage.toFixed(1)} / 10`;
         document.querySelector('.poster-img').src = posterOffset+posterPath;
         document.querySelector('.card-wrapper').setAttribute('data-id', data.results[i]['id']);
@@ -53,9 +53,6 @@ fetch(popularUrl).then(res => res.json()).then(data => {
 // animation movie rotation code
 fetch(genreUrl+'16').then(res => res.json()).then(data => {
     let i = 0;
-    let title = data.results[i]['title'];
-    let posterPath = data.results[i]['poster_path'];
-    
     let posterOffset = 'https://image.tmdb.org/t/p/w500';
     let imageElements = document.querySelectorAll('.anime-movie-list .movie-card img');
     let titleElements = document.querySelectorAll('.anime-movie-list .movie-card .movie-title');
@@ -66,15 +63,11 @@ fetch(genreUrl+'16').then(res => res.json()).then(data => {
         titleElements[i].textContent = data.results[i]['title'];
         clickElements[i].setAttribute('data-id',data.results[i]['id'])
     }
-
 })
 
-// action moive rotation code
+// action movie rotation code
 fetch(genreUrl+'28').then(res => res.json()).then(data => {
     let i = 0;
-    let title = data.results[i]['title'];
-    let posterPath = data.results[i]['poster_path'];
-    
     let posterOffset = 'https://image.tmdb.org/t/p/w500';
     let imageElements = document.querySelectorAll('.action-movie-list .movie-card img');
     let titleElements = document.querySelectorAll('.action-movie-list .movie-card .movie-title');
@@ -85,15 +78,11 @@ fetch(genreUrl+'28').then(res => res.json()).then(data => {
         titleElements[i].textContent = data.results[i]['title'];
         clickElements[i].setAttribute('data-id',data.results[i]['id'])
     }
-
 })
 
 // SF movie rotation code
 fetch(genreUrl+'878').then(res => res.json()).then(data => {
     let i = 0;
-    let title = data.results[i]['title'];
-    let posterPath = data.results[i]['poster_path'];
-    
     let posterOffset = 'https://image.tmdb.org/t/p/w500';
     let imageElements = document.querySelectorAll('.sf-movie-list .movie-card img');
     let titleElements = document.querySelectorAll('.sf-movie-list .movie-card .movie-title');
@@ -104,18 +93,15 @@ fetch(genreUrl+'878').then(res => res.json()).then(data => {
         titleElements[i].textContent = data.results[i]['title'];
         clickElements[i].setAttribute('data-id',data.results[i]['id'])
     }
-
 })
 
 // modal open code
 document.querySelectorAll('.modal-click').forEach((el) => {
     el.addEventListener('click', () => {
-
       document.getElementById('modal').style.display = 'block';
       document.getElementById('modal-overlay').style.display = 'block';
   
       const movieId = el.dataset.id;
-  
       const idSearchUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
   
       fetch(idSearchUrl)
@@ -123,7 +109,7 @@ document.querySelectorAll('.modal-click').forEach((el) => {
         .then(data => {
           document.querySelector('.modal-title').textContent = data.title;
           document.querySelector('.modal-voteAverage').textContent = `평점: ${data.vote_average.toFixed(1)}`;
-          document.querySelector('.modal-overview').textContent = data.overview;
+          document.querySelector('.modal-overview').textContent = data.overview.length > 150 ? data.overview.slice(0, 150) + '...' : data.overview;
           document.querySelector('.modal-poster img').src = `https://image.tmdb.org/t/p/w780${data.backdrop_path}`;
           document.querySelector('.modal-mini-poster img').src = `https://image.tmdb.org/t/p/w200${data.poster_path}`
         });
@@ -147,7 +133,6 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     const input = document.getElementById('searchBox');
     const query = input.value.trim();
     if (query !== '') {
-      
       window.location.href = `search.html?query=${encodeURIComponent(query)}`;
     }
   });

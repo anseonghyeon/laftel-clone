@@ -1,4 +1,4 @@
-// TMDB API ey
+// TMDB API key
 const API_KEY = '';
 
 // nav animation code
@@ -21,13 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${encodeURIComponent(query)}`;
 
     if (query) {
-      document.querySelector('.search-result').innerHTML = `"${query}" <span>검색 결과</span>`;
-
       fetch(url).then(res => res.json()).then(data => {
         const cardGrid = document.querySelector('.card-grid');
         let posterOffset = 'https://image.tmdb.org/t/p/w500';
+
         if(data.results.length === 0) {
             document.querySelector('.search-result').innerHTML = `"${query}" <span>검색 결과 없음</span>`;
+        } else {
+            document.querySelector('.search-result').innerHTML = `"${query}" <span>검색 결과</span>`;
         }
         
         data.results.forEach(movie => {
@@ -42,13 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('.search-result').innerHTML = `<span>검색 결과 없음</span>`;
     }
   });
-  
 
 // modal open code
 document.querySelector('.card-grid').addEventListener('click', (event) => {
   const el = event.target.closest('.modal-click');
-  if (!el) return;
-
   const movieId = el.dataset.id;
 
   document.getElementById('modal').style.display = 'block';
@@ -61,7 +59,7 @@ document.querySelector('.card-grid').addEventListener('click', (event) => {
     .then(data => {
       document.querySelector('.modal-title').textContent = data.title;
       document.querySelector('.modal-voteAverage').textContent = `평점: ${data.vote_average.toFixed(1)}`;
-      document.querySelector('.modal-overview').textContent = data.overview;
+      document.querySelector('.modal-overview').textContent = data.overview.length > 150 ? data.overview.slice(0, 150) + '...' : data.overview;
       document.querySelector('.modal-poster img').src = `https://image.tmdb.org/t/p/w780${data.backdrop_path}`;
       document.querySelector('.modal-mini-poster img').src = `https://image.tmdb.org/t/p/w200${data.poster_path}`;
     });
@@ -84,7 +82,6 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     const input = document.getElementById('searchBox');
     const query = input.value.trim();
     if (query !== '') {
-      
       window.location.href = `search.html?query=${encodeURIComponent(query)}`;
     }
 });
