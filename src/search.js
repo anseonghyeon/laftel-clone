@@ -1,5 +1,20 @@
+// TMDB API ey
 const API_KEY = '';
 
+// nav animation code
+window.addEventListener('scroll',function() {
+  const header = document.getElementById('header');
+
+  if(this.window.scrollY > 50) {
+      header.style.backgroundColor = '#121212';
+      header.style.borderBottom = '1px solid #e8e8e855';
+  } else {
+      header.style.backgroundColor = 'transparent';
+      header.style.borderBottom = 'none';
+  }
+});
+
+// search result code
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const query = params.get('query');
@@ -7,9 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (query) {
       document.querySelector('.search-result').innerHTML = `"${query}" <span>검색 결과</span>`;
-    }
-    
-    fetch(url).then(res => res.json()).then(data => {
+
+      fetch(url).then(res => res.json()).then(data => {
         const cardGrid = document.querySelector('.card-grid');
         let posterOffset = 'https://image.tmdb.org/t/p/w500';
         if(data.results.length === 0) {
@@ -24,22 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>`;
         });
       });
+    } else {
+      document.querySelector('.search-result').innerHTML = `<span>검색 결과 없음</span>`;
+    }
   });
   
-// nav 코드
-window.addEventListener('scroll',function() {
-    const header = document.getElementById('header');
 
-    if(this.window.scrollY > 50) {
-        header.style.backgroundColor = '#121212';
-        header.style.borderBottom = '1px solid #e8e8e855';
-    } else {
-        header.style.backgroundColor = 'transparent';
-        header.style.borderBottom = 'none';
-    }
-});
-
-// 모달 열기
+// modal open code
 document.querySelector('.card-grid').addEventListener('click', (event) => {
   const el = event.target.closest('.modal-click');
   if (!el) return;
@@ -49,9 +54,9 @@ document.querySelector('.card-grid').addEventListener('click', (event) => {
   document.getElementById('modal').style.display = 'block';
   document.getElementById('modal-overlay').style.display = 'block';
 
-  const idUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
+  const idSearchUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`;
 
-  fetch(idUrl)
+  fetch(idSearchUrl)
     .then(res => res.json())
     .then(data => {
       document.querySelector('.modal-title').textContent = data.title;
@@ -62,18 +67,19 @@ document.querySelector('.card-grid').addEventListener('click', (event) => {
     });
 });
 
-// 모달 닫기
+// modal exit button close code
 document.querySelector('.modal-exit').addEventListener('click', () => {
     document.getElementById('modal').style.display = 'none';
     document.getElementById('modal-overlay').style.display = 'none';
 })
 
+// modal overlay click close code
 document.getElementById('modal-overlay').addEventListener('click', () => {
     document.getElementById('modal').style.display = 'none';
     document.getElementById('modal-overlay').style.display = 'none';
 });
 
-// 검색 로직
+// buttton search url change code
 document.getElementById('searchBtn').addEventListener('click', () => {
     const input = document.getElementById('searchBox');
     const query = input.value.trim();
@@ -83,10 +89,11 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     }
 });
 
-// 엔터로도 검색가능하게
+// enter search url change code
 document.getElementById('searchBox').addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-      const query = event.target.value.trim();
+      const input = document.getElementById('searchBox');
+      const query = input.value.trim();
       if (query !== '') {
         window.location.href = `search.html?query=${encodeURIComponent(query)}`;
       }
