@@ -12,8 +12,10 @@ TMDB 영화정보 API를 활용하여 영화 정보를 검색하고
 # 완성본
 - 메인 베너 로테이션
 <img src="./img/screen1.png" width="500" style="display : block">
+
 - 장르별 인기영화 로테이션
 <img src="./img/screen2.png" width="500" style="display : block">
+
 - 영화 검색기능과 모달
 <img src="./img/screen3.png" width="500" style="display : block">
 
